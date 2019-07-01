@@ -1,5 +1,8 @@
 # PyInvoice v1.0.1
 
+## Installing Dependencies:
+    pip install -r requirements.txt
+
 ## How to use:
 ```
 usage: pyinvoice.py [-h] --number NUMBER [--info INFO [INFO ...]] --company
