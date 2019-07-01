@@ -2,7 +2,7 @@ from fpdf import FPDF
 import argparse
 import os
 
-parser = argparse.ArgumentParser(description="\tEasy invoicer from the commandline.\n\n\tHow to use:\n\npython -n 109 -c 'COMPANY' 'STREET' 'CITY / STATE / ZIP' 'NUMBER' -id 09.09.019 - work 'Item' 'Description' 2000 1",formatter_class=argparse.RawTextHelpFormatter)
+parser = argparse.ArgumentParser(description="\tEasy invoicer from the commandline.\n\n\tHow to use:\n\npython --number 109 --logo 'C://Location_To_Logo.png' --company 'COMPANY' 'STREET' 'CITY / STATE / ZIP' 'NUMBER' --idate 09.09.019 --work 'Item' 'Description' 2000 1",formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument('--number','-n', type=int, default=0, required=True,
                     help="the number of the invoice")
 parser.add_argument('--info','-i', nargs="+", type=str, default=[],
@@ -17,6 +17,8 @@ parser.add_argument('--work','-w', nargs='+', type=str, default=[], action='appe
                     help="use -w to add some work: Item Description Price Quantity")
 parser.add_argument('--dest','-d', type=str,
                     help="the destination you want this file to be generated")
+parser.add_argument('--logo','-l', type=str,
+                    help="the destination to the logo you want to appear on the invoice (converted to a 1:1 ratio)")
 parser.add_argument('-s', "--save", action='store_true',
                     help='add -s if you want to save your info')
 
@@ -35,6 +37,7 @@ for row in args.work:
     data.append(row)
 data.append(['','','Total:','',''])
 
+# 
 if args.idate is None:
     args.idate = "Today"
 
@@ -142,7 +145,8 @@ pdf.ln(0.5)
 '''
 CLIENT INFO
 '''
-pdf.image("haxhat.png", x=3.5,y=.1,w=1.45,h=1.5)
+if args.logo != None:
+    pdf.image(args.logo, x=3.5,y=.1,w=1.45,h=1.5)
 pdf.set_font('Times','B',16)
 pdf.cell(3)
 pdf.multi_cell(0, 0.20,
@@ -208,4 +212,4 @@ for row in data:
     pdf.ln(th)
     place +=1
 
-pdf.output(f"{args.number}_Invoice_{args.company[0]}_{args.idate.replace('.','-')}.pdf",'F')
+pdf.output(f"{args.dest}/{args.number}_Invoice_{args.company[0]}_{args.idate.replace('.','-')}.pdf",'F')
