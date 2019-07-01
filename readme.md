@@ -1,4 +1,4 @@
-# PyInvoice v1.0.0
+# PyInvoice v1.0.1
 
 ## How to use:
 ```
@@ -10,7 +10,7 @@ usage: pyinvoice.py [-h] --number NUMBER [--info INFO [INFO ...]] --company
 
         How to use:
 
-python --number 109 --logo 'C://Location_To_Logo.png' --company 'COMPANY' 'STREET' 'CITY / STATE / ZIP' 'NUMBER' --idate 09.09.019 --work 'Item' 'Description' 2000 1
+python pyinvoice.py --number 109 --logo 'C://Location_To_Logo.png' --company 'COMPANY' 'STREET' 'CITY / STATE / ZIP' 'NUMBER' --idate 09.09.019 --work 'Item' 'Description' 2000 1
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -32,7 +32,7 @@ optional arguments:
 ```
 
 ## Example:
-    python --number 109 --logo 'C://Location_To_Logo.png' --company 'COMPANY' 'STREET' 'CITY / STATE / ZIP' 'NUMBER' --idate 09.09.019 --work 'Item' 'Description' 2000 1
+  python pyinvoice.py --number 109 --logo 'C://Location_To_Logo.png' --company 'COMPANY' 'STREET' 'CITY / STATE / ZIP' 'NUMBER' --idate 09.09.019 --work 'Item' 'Description' 2000 1
 
 ## Roadmap:
 |#|Task
