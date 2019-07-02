@@ -24,6 +24,8 @@ parser.add_argument('-s', "--save", action='store_true',
 
 args = parser.parse_args()
 
+cwd = os.getcwd()
+
 '''
 IMPORT DATA
 '''
@@ -63,14 +65,16 @@ if args.info == []:
             allData.append(input("What is the account number you want funds transferred to: "))
             allData.append(input("What is your email?: "))
 
-            with open('info.txt', 'w') as f:
+            with open(f'{cwd}/info.txt', 'w') as f:
+                print(f"Saving info to @ {cwd}\\info.txt")
                 f.write('\n'.join(allData))
 
         else:
             print("okay goodbye then")
             quit()
 
-    with open('info.txt', 'r') as f:
+    with open(f'{cwd}/info.txt', 'r') as f:
+        print(f"Reading info from @ {cwd}\\info.txt")
         allData = f.read().split('\n')
 else:
     allData = args.info
@@ -78,10 +82,12 @@ else:
     if createFile:
 
         if args.save:
-            with open('info.txt', 'w') as f:
+            with open(f'{cwd}/info.txt', 'w') as f:
+                print(f"Saving info to @ {cwd}\\info.txt")
                 f.write('\n'.join(allData))
         elif input("It appears that you don't have a data file\nWould you like to create one? (type 'y' if yes): ").lower() == 'y':
-            with open('info.txt', 'w') as f:
+            with open(f'{cwd}/info.txt', 'w') as f:
+                print(f"Saving info to @ {cwd}\\info.txt")
                 f.write('\n'.join(allData))
 
 '''
@@ -212,4 +218,9 @@ for row in data:
     pdf.ln(th)
     place +=1
 
-pdf.output(f"{args.dest}/{args.number}_Invoice_{args.company[0]}_{args.idate.replace('.','-')}.pdf",'F')
+if args.dest == None:
+    pdf.output(f"{args.number}_Invoice_{args.company[0]}_{args.idate.replace('.','-')}.pdf",'F')
+    print(f"Invoice saved @ {cwd}\\{args.number}_Invoice_{args.company[0]}_{args.idate.replace('.','-')}.pdf")
+else:
+    pdf.output(f"{args.dest}/{args.number}_Invoice_{args.company[0]}_{args.idate.replace('.','-')}.pdf",'F')
+    print(f"Invoice saved @ {args.dest}\\{args.number}_Invoice_{args.company[0]}_{args.idate.replace('.','-')}.pdf")

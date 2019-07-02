@@ -1,4 +1,4 @@
-# PyInvoice v1.0.1
+# PyInvoice v1.0.2
 
 ## Installing Dependencies:
     pip install -r requirements.txt
