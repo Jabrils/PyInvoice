@@ -8,8 +8,8 @@ parser.add_argument('--number','-n', type=int, default=0, required=True,
 parser.add_argument('--info','-i', nargs="+", type=str, default=[],
                     help="All the info if you don't want to use the default: 'Name' 'Address' 'City / State / Zipcode' 'Routing #' 'Account #' 'Email'")
 parser.add_argument('--company','-c', nargs="+", type=str, default=[], required=True,
-                    help="the name of the company you're invoicing")
-parser.add_argument('--idate','-id', type=str, default='04.09.019',
+                    help="Info of the Company you are invoicing: 'COMPANY' 'STREET' 'CITY / STATE / ZIP' 'NUMBER'")
+parser.add_argument('--idate','-id', type=str, default='04.09.2019',
                     help="the date that you're invoicing")
 parser.add_argument('--ddate','-dd', type=str,
                     help="the date that your invoice is due")
@@ -25,6 +25,25 @@ parser.add_argument('-s', "--save", action='store_true',
 args = parser.parse_args()
 
 cwd = os.getcwd()
+
+def createInfo():
+    cont = input("Wait, it appears that you aren't inputting any data or you have missing data & don't have a data file\nWould you like to create one? (type 'y' if yes): ")  
+
+    if cont.lower() == 'y':
+        allData.append(input("What is the name on the invoice: "))
+        allData.append(input("What is the address for the invoice: "))
+        allData.append(input("What is the City, State Zip for that address: "))
+        allData.append(input("What is the routing number to your bank: "))
+        allData.append(input("What is the account number you want funds transferred to: "))
+        allData.append(input("What is your email?: "))
+
+        with open(f'{cwd}/info.txt', 'w') as f:
+            print(f"Saving info to @ {cwd}\\info.txt")
+            f.write('\n'.join(allData))
+
+    else:
+        print("okay goodbye then")
+        quit()
 
 '''
 IMPORT DATA
@@ -48,39 +67,25 @@ if args.ddate is None:
     args.ddate = args.idate
 
 
-createFile = not os.path.exists('info.txt')
+infoExists = os.path.exists('info.txt')
 
-if args.info == []:
+if args.info == [] or len(args.info) != 6:
 
     allData = []
 
-    if createFile:
-        cont = input("Wait, it appears that you aren't inputting any data & don't have a data file\nWould you like to create one? (type 'y' if yes): ")
-        
-        if cont.lower() == 'y':
-            allData.append(input("What is the name on the invoice: "))
-            allData.append(input("What is the address for the invoice: "))
-            allData.append(input("What is the City, State Zip for that address: "))
-            allData.append(input("What is the routing number to your bank: "))
-            allData.append(input("What is the account number you want funds transferred to: "))
-            allData.append(input("What is your email?: "))
+    if infoExists:
+        with open(f'{cwd}/info.txt', 'r') as f:
+            print(f"Reading info from @ {cwd}\\info.txt")
+            allData = f.read().split('\n')
 
-            with open(f'{cwd}/info.txt', 'w') as f:
-                print(f"Saving info to @ {cwd}\\info.txt")
-                f.write('\n'.join(allData))
+    else:
+        createInfo()
 
-        else:
-            print("okay goodbye then")
-            quit()
-
-    with open(f'{cwd}/info.txt', 'r') as f:
-        print(f"Reading info from @ {cwd}\\info.txt")
-        allData = f.read().split('\n')
+    
 else:
     allData = args.info
 
-    if createFile:
-
+    if not infoExists:
         if args.save:
             with open(f'{cwd}/info.txt', 'w') as f:
                 print(f"Saving info to @ {cwd}\\info.txt")
@@ -151,6 +156,10 @@ pdf.ln(0.5)
 '''
 CLIENT INFO
 '''
+if len(args.company) != 4:
+    print("You are missing some information of the company you are invoicing. It should be in the format:\n    'COMPANY' 'STREET' 'CITY / STATE / ZIP' 'NUMBER'")
+    quit()
+
 if args.logo != None:
     pdf.image(args.logo, x=3.5,y=.1,w=1.45,h=1.5)
 pdf.set_font('Times','B',16)
