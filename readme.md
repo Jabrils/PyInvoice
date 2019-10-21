@@ -38,12 +38,15 @@ optional arguments:
   python pyinvoice.py --number 109 --logo 'C://Location_To_Logo.png' --company 'COMPANY' 'STREET' 'CITY / STATE / ZIP' 'NUMBER' --idate 09.09.019 --work 'Item' 'Description' 2000 1
 
 ## Roadmap:
-|#|Task
-|---|---
-|1|~~Get destination saving to work~~
-|2|~~Add a config file that saves user's bank info & address so they don't have to type it every time & can change it at will~~
-|3|~~Do something about the option for a logo & where saving that goes~~
-|4|~~**Add an example with the -h tag!**~~
-|5|Add the feature where pyvoice can keep track of what has been paid & not paid
-|5|Make a short video on this?
-|6|Clean script
+
+### To-Do
+- [ ] Add the feature where pyvoice can keep track of what has been paid & not paid
+- [ ] Make a short video on this?
+- [ ] Clean script
+- [ ] Make pyinvoice save the terminal command as well so if you want to easily modify or continue an invoice later
+
+### Done
+- [x] Get destination saving to work
+- [x] Add a config file that saves user's bank info & address so they don't have to type it every time & can change it at will
+- [x] Do something about the option for a logo & where saving that goes
+- [x] Add an example with the -h tag!
