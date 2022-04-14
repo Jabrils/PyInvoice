@@ -1,9 +1,11 @@
+# v1.0.3
+
 from fpdf import FPDF
 import argparse
 import os
 
 parser = argparse.ArgumentParser(description="\tEasy invoicer from the commandline.\n\n\tHow to use:\n\npython --number 109 --logo 'C://Location_To_Logo.png' --company 'COMPANY' 'STREET' 'CITY / STATE / ZIP' 'NUMBER' --idate 09.09.019 --work 'Item' 'Description' 2000 1",formatter_class=argparse.RawTextHelpFormatter)
-parser.add_argument('--number','-n', type=int, default=0, required=True,
+parser.add_argument('--number','-n', type=str, default=0, required=True,
                     help="the number of the invoice")
 parser.add_argument('--info','-i', nargs="+", type=str, default=[],
                     help="All the info if you don't want to use the default: 'Name' 'Address' 'City / State / Zipcode' 'Routing #' 'Account #' 'Email'")
@@ -106,7 +108,7 @@ pdf.set_font('Times','',10)
  
 # Long meaningless piece of text
 header = f"""
-Invoice #: {args.number}
+Invoice ID: {args.number}
 Invoice Date: {args.idate}
 Due Date: {args.ddate}
 """
@@ -149,17 +151,17 @@ pdf.multi_cell(effective_page_width/2, 0.20, header, align='R')
 pdf.ln(0.5)
 
 '''
-CLIENT INFO
+CLIENT INFO 
 '''
 if args.logo != None:
     pdf.image(args.logo, x=3.5,y=.1,w=1.45,h=1.5)
 pdf.set_font('Times','B',16)
-pdf.cell(3)
+pdf.cell(4)
 pdf.multi_cell(0, 0.20,
 f"Bill To:", align='L')
 
 pdf.set_font('Times','',16)
-pdf.cell(3)
+pdf.cell(4)
 pdf.multi_cell(0, 0.20,
 f"""
 {args.company[0]}
@@ -219,8 +221,8 @@ for row in data:
     place +=1
 
 if args.dest == None:
-    pdf.output(f"{args.number}_Invoice_{args.company[0]}_{args.idate.replace('.','-')}.pdf",'F')
-    print(f"Invoice saved @ {cwd}\\{args.number}_Invoice_{args.company[0]}_{args.idate.replace('.','-')}.pdf")
+    pdf.output(f"{args.idate.replace('.','-')}_{args.number}_Invoice_{args.company[0]}.pdf",'F')
+    print(f"Invoice saved @ {cwd}\\{args.idate.replace('.','-')}_{args.number}_Invoice_{args.company[0]}.pdf")
 else:
-    pdf.output(f"{args.dest}/{args.number}_Invoice_{args.company[0]}_{args.idate.replace('.','-')}.pdf",'F')
-    print(f"Invoice saved @ {args.dest}\\{args.number}_Invoice_{args.company[0]}_{args.idate.replace('.','-')}.pdf")
+    pdf.output(f"{args.dest}/{args.idate.replace('.','-')}_{args.number}_Invoice_{args.company[0]}.pdf",'F')
+    print(f"Invoice saved @ {args.idate.replace('.','-')}_{args.dest}\\{args.number}_Invoice_{args.company[0]}.pdf")
